@@ -191,7 +191,7 @@ const AuthStack = createStackNavigator({
   }
 },
 {
-  // initialRouteName: 'AuthScreen'
+  initialRouteName: 'AuthScreen'
 });
 
 const InitialStackNavigator = createStackNavigator ({

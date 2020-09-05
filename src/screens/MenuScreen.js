@@ -22,7 +22,7 @@ export default class MenuScreen extends Component {
 
   _retrieveData = async() => {
     try {
-      let user = await AsyncStorage.getItem("usernametoken");
+      let user = await AsyncStorage.getItem("usertoken");
       let parsed = JSON.parse(user);
 
       this.setState({

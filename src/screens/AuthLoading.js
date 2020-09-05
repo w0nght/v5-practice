@@ -1,7 +1,7 @@
 /* AuthLoading.js */
 
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
 import SplashScreen from './SplashScreen';
 
 class AuthLoading extends Component {
@@ -27,7 +27,21 @@ class AuthLoading extends Component {
 
     if (data !== null) {
       this.setState({ isLoading: false });
-      this.props.navigation.navigate('auth');  //TODO: navigate to auth | app
+      try { // direct users to home screen if async token exists
+        const userVaule = await AsyncStorage.getItem("usertoken");
+        const user = JSON.parse(userVaule);
+        if (user !== null) {
+          // console.log("\n\n" + user.email);
+          console.log("Async message: user token exists - directing user to home screen");
+          this.props.navigation.navigate("app");
+        } else {
+          // usertoken not exists
+          console.log("Async message: user token is null - directing user to auth");
+          this.props.navigation.navigate('auth');
+        }
+      } catch (error) {
+        console.log("Something went wrong ", error);
+      }
     }
   }
 
