@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.v4redux.test">
+    package="com.v5practice.test">
 
     <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="28" />
 
@@ -9,8 +9,8 @@
     </application>
 
     <instrumentation android:name="android.test.InstrumentationTestRunner"
-                     android:targetPackage="com.v4redux"
+                     android:targetPackage="com.v5practice"
                      android:handleProfiling="false"
                      android:functionalTest="false"
-                     android:label="Tests for com.v4redux"/>
+                     android:label="Tests for com.v5practice"/>
 </manifest>

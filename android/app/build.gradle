@@ -106,7 +106,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.v4redux"
+        applicationId "com.v5practice"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -1,4 +1,4 @@
-package com.v4redux;
+package com.v5practice;
 
 import android.app.Application;
 

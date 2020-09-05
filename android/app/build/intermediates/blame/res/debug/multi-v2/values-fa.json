@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/heiwong/Documents/FanTipper/v4Redux/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-fa/values-fa.xml",
+            "outputFile": "/Users/heiwong/Documents/FanTipper/v5-practice/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-fa/values-fa.xml",
             "map": [
                 {
                     "source": "/Users/heiwong/.gradle/caches/transforms-2/files-2.1/bbf07aa1da9ab954374e693dfcc335b9/appcompat-v7-28.0.0/res/values-fa/values-fa.xml",

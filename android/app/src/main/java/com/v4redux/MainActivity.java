@@ -1,4 +1,4 @@
-package com.v4redux;
+package com.v5practice;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -13,7 +13,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "v4Redux";
+        return "v5practice";
     }
     @Override
     protected ReactActivityDelegate createReactActivityDelegate() {

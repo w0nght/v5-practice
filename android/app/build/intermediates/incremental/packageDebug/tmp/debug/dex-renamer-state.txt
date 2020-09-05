@@ -1,4 +1,4 @@
-#Tue Nov 12 19:37:33 AEDT 2019
-base.0=/Users/heiwong/Documents/FanTipper/v4Redux/android/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+#Sat Sep 05 16:14:18 AEST 2020
+base.0=/Users/heiwong/Documents/FanTipper/v5-practice/android/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex
 renamed.0=classes.dex
 path.0=classes.dex
