@@ -18,6 +18,7 @@ export default class MenuScreen extends Component {
 
   componentDidMount() {
     this._retrieveData();
+    this._checkStoredKeys();
   }
 
   _retrieveData = async() => {
@@ -33,11 +34,39 @@ export default class MenuScreen extends Component {
     }
   }
 
-  _singOutAsync = async() => {
+  // For Testing:
+  _checkStoredKeys = async() => {
+    AsyncStorage.getAllKeys()
+    .then((keys)=> AsyncStorage.multiGet(keys)
+                    .then((data) => console.log(data)));
+    // try {
+      
+    //   const keys = await AsyncStorage.getAllKeys();
+    //   const result = await AsyncStorage.multiGet(keys);
+  
+    //   return result.map(req => JSON.parse(req)).forEach(console.log);
+    // } catch (error) {
+    //   console.error(error)
+    // }
+  }
+
+
+  _signOutClearAllKeys = async() => {
     try {
       const keys = await AsyncStorage.getAllKeys();
       await AsyncStorage.multiRemove(keys);
       await AsyncStorage.clear();
+      this.props.navigation.navigate("auth");
+
+    } catch (e) {
+      console.log("Something went wrong ", e);
+    }
+  }
+
+  _handleSignOut = async() => {
+    try {
+      let keys = ['usertoken'];
+      await AsyncStorage.multiRemove(keys);
       this.props.navigation.navigate("auth");
 
     } catch (e) {
@@ -52,7 +81,7 @@ export default class MenuScreen extends Component {
           <List>
             <ListItem>
               <Thumbnail source={images.broShakeLogo} style={styles.greetingColumn}/>
-              <Text style={styles.menuGreetingText}>Hi {this.state.name}!</Text>
+              <Text style={styles.menuGreetingText}>Hi {this.state.name}</Text>
             </ListItem>
             <ListItem onPress={() => this.props.navigation.navigate("history")}>
               <Icon name="area-chart" color="green" size={26} style={styles.menuIcon}  />
@@ -60,14 +89,14 @@ export default class MenuScreen extends Component {
               </ListItem>
             <ListItem iconLeft onPress={() => this.props.navigation.navigate("about")}>
                 <Image source={images.menuFanTipLogo} style={{height: 46,width: 46, resizeMode: "cover"}}/>
-                <Text style={styles.menuText}>About FanTipper</Text>
+                <Text style={[styles.menuText, {marginLeft: 20}]}>About FanTipper</Text>
             </ListItem>
 
             <ListItem onPress={() => this.props.navigation.navigate("editProfile")}>
               <Icon name="user" color="green" size={26} style={styles.menuIcon}/>
               <Text style={styles.menuText}>Edit Profile</Text>
             </ListItem>
-            <ListItem last onPress={this._singOutAsync}>
+            <ListItem last onPress={this._handleSignOut}>
               <Icon name="sign-out" color="green" size={26} style={styles.menuIcon}/>
               <Text style={styles.menuText}>Log Out</Text>
             </ListItem>

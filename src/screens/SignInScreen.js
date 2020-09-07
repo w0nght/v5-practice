@@ -1,35 +1,65 @@
 /** SignInScreen.js */
 
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Dimensions, AsyncStorage, Button, TextInput, TouchableOpacity, ScrollView, CheckBox } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, AsyncStorage, Button, Switch, TextInput, TouchableOpacity, ScrollView, CheckBox } from 'react-native';
 import fonts from '../assets/Fonts';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 var fullWidth = Dimensions.get('window').width; //full width
 
 // var FBLoginButton = require('../components/FBLoginButton');
 // import TextInputComp from '../components/TextInputComp';
+
 export default class SignInScreen extends Component {
 	constructor() {
 		super();
-		this.state = { email: "", password: "", check: false }
-	};
+		this.state = { email: "", password: "", rememberMe: false }
+	}
 
 	static defaultProps = {
 	  value: '',
 	  id: ''
 	  // isFocused: false,
 	}
-	// onChangeText(value) {
-	// 	this.setState({ email: value });
-	// }
-	// _submitCheck() {
-	// 	const { email, password } = this.state
-	// };
-	_handleCheckBox() {
-		this.setState({ check: !this.state.check })
-		//TODO: make it remember the user
-	};
+
+	_rememberUser = async() => {
+		try {
+			await AsyncStorage.setItem('YOUR-KEY', this.state.email);
+		} catch (error) {
+			// Error saving data
+
+		}
+	}
+
+	_getRememberedUser = async() => {
+		try {
+			const useremail = await AsyncStorage.getItem('YOUR-KEY');
+			if (useremail !== null) {
+				return useremail;
+			}
+		} catch (error) {
+			// Error retrieving data
+
+		}
+	}
+
+	_forgetUser = async() => {
+		try {
+			await AsyncStorage.removeItem('YOUR-KEY');
+		} catch (error) {
+			// Error remooving
+			
+		}
+	}
+
 	_handleSignIn = async() => {
+		// state of remember me
+		if (this.state.rememberMe === true) {
+			this._rememberUser();
+		} else {
+			this._forgetUser();
+		}
+		
+		// debug user
 		if (this.state.email === 'admin@admin.com' ) {
 			let passingObj = {
 				email: this.state.email,
@@ -39,8 +69,7 @@ export default class SignInScreen extends Component {
 			this.props.navigation.navigate("app");
 
 		} else {
-			// TODO:
-			// alert(this.state.email);
+			// TODO: fetch user infomation from database
 			fetch('mongodb://fantipper:fantipper123@ds123311.mlab.com:23311/fantipper/users', {
 				method: 'POST',
 				headers: {
@@ -55,26 +84,44 @@ export default class SignInScreen extends Component {
 			.then((response) => response.json())
 			.then((res) => {
 				alert(res.message);
-				if(res.success === true) {
+				if (res.success === true) {
 					AsyncStorage.setItem('user', res.user);
 					this.props.navigation.navigate('app');
 				}
-				else{ 
+				else { 
 					alert(res.message);
 				}
 			}).done();
 		}
 	}
 
+	_handleRememberMe = value => {
+		this.setState({ rememberMe: !this.state.rememberMe })
+	}
+
+	// Life Cycle: triggers once when app loads
 	componentDidMount() {
 		this._loadInitialState().done();
 	}
+
 	_loadInitialState = async() => {
-		var value = await AsyncStorage.getItem('user');
-		if (value !== null) {
-			this.props.navigation.navigate('app');
-		}
+		const useremail = await this._getRememberedUser();
+
+		this.setState({
+			email: useremail || "",
+			rememberMe: useremail ? true : false
+		});
+		// var value = await AsyncStorage.getItem('user');
+		// if (value !== null) {
+		// 	this.props.navigation.navigate('app');
+		// }
 	}
+
+	_sendAlert(alertMessage) {
+		Alert.alert("Uh Oh!", alertMessage, [{ text: "Ok", style: "ok" }]);
+	}
+	// TODO:
+	// https://www.instamobile.io/react-native-tutorials/asyncstorage-example-react-native/
 	
 	render() {
 		return (
@@ -89,8 +136,8 @@ export default class SignInScreen extends Component {
 	   				</View>
 					</View>
    				<View style={styles.hr} />
-					 {/* //TODO: <FBLoginButton /> */}
-					 <View style={styles.socialBtnsContainer}>
+					{/* //TODO: <FBLoginButton /> */}
+					<View style={styles.socialBtnsContainer}>
 						<View style={[styles.btn_social, styles.btn_fb]}>
 							<FontAwesome.Button 
 								name='facebook-square'
@@ -101,8 +148,8 @@ export default class SignInScreen extends Component {
 								iconStyle={{marginRight:10}}
 								style={{marginHorizontal: 10}}
 								// onPress={this._fbAuth}
-								>
-							<Text style={styles.btnText}>sign in with facebook</Text>
+							>
+								<Text style={styles.btnText}>sign in with facebook</Text>
 							</FontAwesome.Button>
 						</View>
 						<View style={styles.btn_social}>
@@ -126,8 +173,6 @@ export default class SignInScreen extends Component {
    					<Text style={styles.hrOrText}>OR</Text>
    					<View style={styles.hrOR} />
    				</View>
-					<Text>debug email: {this.state.email}</Text>
-					<Text>debug password: {this.state.password}</Text>
 		 			<TextInput 
 						placeholder='Email'
 						placeholderTextColor='#6a6a6a'
@@ -162,7 +207,7 @@ export default class SignInScreen extends Component {
 						style={styles.inputBoxBase}
 					/>
 				<View style={{flexDirection: 'row', alignItems: 'center'}}>
-				  <CheckBox value={this.state.check} onChange={() => this._handleCheckBox()} />
+					<CheckBox value={this.state.rememberMe} onValueChange={(value) => this._handleRememberMe(value)} />
 					<Text style={styles.instructions}>Remember me?</Text>
 				</View>
 				<Text style={styles.forgotpasswordBtn} onPress={() => this.props.navigation.navigate('ForgotPW')}>Forgot your password?</Text>

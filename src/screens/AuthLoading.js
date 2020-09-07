@@ -1,4 +1,6 @@
 /* AuthLoading.js */
+/** After 2 seconds splash screen the app will identify if a user is logged in or not */
+// TODO: update async storage 
 
 import React, { Component } from 'react';
 import { View, AsyncStorage } from 'react-native';
