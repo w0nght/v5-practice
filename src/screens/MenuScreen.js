@@ -1,6 +1,7 @@
 /* MenuScreen.js */
 import React, { Component } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Button, Image, AsyncStorage } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Button, Image } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import { List, ListItem, Content, Left, Thumbnail, Body, Right } from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
 

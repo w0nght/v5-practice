@@ -1,7 +1,9 @@
 /** SignInScreen.js */
 
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Dimensions, AsyncStorage, Button, Switch, TextInput, TouchableOpacity, ScrollView, CheckBox } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, Button, Switch, TextInput, TouchableOpacity, ScrollView, CheckBox } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+
 import fonts from '../assets/Fonts';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 var fullWidth = Dimensions.get('window').width; //full width

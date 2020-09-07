@@ -3,7 +3,8 @@
 // TODO: update async storage 
 
 import React, { Component } from 'react';
-import { View, AsyncStorage } from 'react-native';
+import { View } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import SplashScreen from './SplashScreen';
 
 class AuthLoading extends Component {
@@ -33,7 +34,6 @@ class AuthLoading extends Component {
         const userVaule = await AsyncStorage.getItem("usertoken");
         const user = JSON.parse(userVaule);
         if (user !== null) {
-          // console.log("\n\n" + user.email);
           console.log("Async message: user token exists - directing user to home screen");
           this.props.navigation.navigate("app");
         } else {
